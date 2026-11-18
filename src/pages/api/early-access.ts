@@ -1,6 +1,6 @@
 import type { APIContext, APIRoute } from 'astro';
 import { createHmac } from 'node:crypto';
-import { sendConfirmationEmail } from '../../lib/confirmation-email';
+import { sendEarlyAccessEmails } from '../../lib/confirmation-email';
 import { copy, isLocale, pathFor, acceptedSpending, tools, type Locale } from '../../lib/i18n';
 import { analyticsEnabled, configured, isSameOrigin, readBody, rpc, trackingAllowed } from '../../lib/server';
 
@@ -61,7 +61,7 @@ export const POST: APIRoute = async (context) => {
       p_track: analyticsEnabled() && trackingAllowed(request),
     });
     if (outcome === 'success') {
-      await sendConfirmationEmail(email, lang);
+      await sendEarlyAccessEmails({ name, email, company, spend, choices, use, lang });
       return reply(context, lang, outcome);
     }
     if (outcome === 'duplicate' || outcome === 'limited') {

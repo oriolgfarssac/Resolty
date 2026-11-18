@@ -37,7 +37,7 @@ Analytics use first-party requests and daily aggregate counts in `public.landing
 
 ## Enable confirmation emails
 
-Verify the sending domain `resolty.com` in [Resend](https://resend.com/docs/dashboard/domains/introduction), then set `RESEND_API_KEY` in the local `.env` or in Vercel's Production environment and redeploy. Resolty sends from `hello@resolty.com` in the language of each new signup. The API key is server-only. Signups continue to save if the key is absent or the provider returns an error. Delivery failures are logged without recipient data. Verify delivery with an address you control.
+Verify the sending domain `resolty.com` in [Resend](https://resend.com/docs/dashboard/domains/introduction), then set `RESEND_API_KEY` in the local `.env` or in Vercel's Production environment and redeploy. Each successful signup sends two emails from `hello@resolty.com`: a localized confirmation to the applicant and a Spanish registration notice with the form details to `hello@resolty.com`. The API key is server-only. Signups continue to save if the key is absent or the provider returns an error. Delivery failures are logged without recipient data. Verify delivery with an address you control.
 
 ## Deploy on Vercel
 

@@ -1,5 +1,5 @@
 import { contactEmail } from './contact.ts';
-import type { Locale } from './i18n';
+import { copy, spending, type Locale } from './i18n';
 
 const messages = {
   en: {
@@ -16,25 +16,76 @@ const messages = {
   },
 } satisfies Record<Locale, { subject: string; text: string }>;
 
-export async function sendConfirmationEmail(email: string, locale: Locale) {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) return;
+type Message = { subject: string; text: string };
+type Registration = {
+  name: string;
+  email: string;
+  company: string;
+  spend: string;
+  choices: string[];
+  use: string;
+  lang: Locale;
+};
 
+const legacySpending: Record<string, string> = {
+  under_100: 'Menos de 100 €',
+  '100_500': '100–500 €',
+  '250_500': '250–500 €',
+  '500_1000': '500–1.000 €',
+  over_1000: 'Más de 1.000 €',
+};
+
+function registrationNotice(registration: Registration): Message {
+  const { name, email, company, spend, choices, use, lang } = registration;
+  const labels = copy.es.form;
+  const range = labels.ranges[spending.indexOf(spend)] ?? legacySpending[spend] ?? spend;
+  const selectedTools = choices.map((tool) => {
+    if (tool === 'other') return labels.toolChoices[0];
+    if (tool === 'none') return labels.toolChoices[1];
+    return tool;
+  });
+  return {
+    subject: 'Nuevo registro de acceso anticipado',
+    text: [
+      `Nombre: ${name}`,
+      `Correo: ${email}`,
+      `Empresa: ${company}`,
+      `Gasto mensual estimado: ${range}`,
+      `Herramientas de IA: ${selectedTools.join(', ') || 'Sin indicar'}`,
+      `Idioma del formulario: ${lang.toUpperCase()}`,
+      '',
+      'Uso principal de la IA:',
+      use || 'Sin indicar',
+    ].join('\n'),
+  };
+}
+
+async function sendEmail(key: string, to: string, message: Message, purpose: string) {
   try {
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: `Resolty <${contactEmail}>`,
-        to: [email],
+        to: [to],
         reply_to: contactEmail,
-        ...messages[locale],
+        ...message,
       }),
       redirect: 'error',
       signal: AbortSignal.timeout(4000),
     });
-    if (!response.ok) console.error('Confirmation email rejected by provider', response.status);
+    if (!response.ok) console.error('Early-access email rejected by provider', purpose, response.status);
   } catch {
-    console.error('Confirmation email could not reach provider');
+    console.error('Early-access email could not reach provider', purpose);
   }
+}
+
+export async function sendEarlyAccessEmails(registration: Registration) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return;
+
+  await Promise.all([
+    sendEmail(key, registration.email, messages[registration.lang], 'confirmation'),
+    sendEmail(key, contactEmail, registrationNotice(registration), 'registration notice'),
+  ]);
 }
