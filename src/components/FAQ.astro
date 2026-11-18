@@ -1,0 +1,9 @@
+---
+import { copy, type Locale } from '../lib/i18n';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+---
+<section class="section wrap split faq" id="faq" aria-labelledby="faq-title">
+  <div><p class="eyebrow">FAQ</p><h2 id="faq-title">{t.faqTitle}</h2></div>
+  <div>{t.faq.map(([question, answer]) => <details><summary>{question}<span aria-hidden="true"></span></summary><p>{answer}</p></details>)}</div>
+</section>

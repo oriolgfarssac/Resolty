@@ -1,0 +1,11 @@
+---
+import { copy, type Locale } from '../lib/i18n';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+---
+<section class="section wrap" id="how-it-works" aria-labelledby="steps-title">
+  <p class="eyebrow">{t.nav[0]}</p><h2 id="steps-title">{t.steps.title}</h2>
+  <ol class="steps">{t.steps.items.map(([title, body], i) => <li>
+    <span aria-hidden="true" class="step-number">{String(i + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{body}</p>
+  </li>)}</ol>
+</section>

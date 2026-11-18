@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from './Navigation.astro';
+import Hero from './Hero.astro';
+import Problem from './Problem.astro';
+import HowItWorks from './HowItWorks.astro';
+import Benefits from './Benefits.astro';
+import EarlyAccess from './EarlyAccess.astro';
+import FAQ from './FAQ.astro';
+import Footer from './Footer.astro';
+import type { Locale } from '../lib/i18n';
+const { lang } = Astro.props as { lang: Locale };
+---
+<Layout {lang}>
+  <Navigation {lang} />
+  <main id="main" data-landing>
+    <Hero {lang} />
+    <Problem {lang} />
+    <HowItWorks {lang} />
+    <EarlyAccess {lang} />
+    <Benefits {lang} />
+    <FAQ {lang} />
+  </main>
+  <Footer {lang} />
+</Layout>

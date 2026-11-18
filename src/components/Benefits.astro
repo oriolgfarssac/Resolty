@@ -1,0 +1,14 @@
+---
+import Icon from './Icon.astro';
+import { copy, type Locale } from '../lib/i18n';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+const icons = ['card', 'target', 'bolt', 'stack', 'chart', 'cycle'] as const;
+---
+<section class="section benefits" id="benefits" aria-labelledby="benefits-title">
+  <div class="wrap"><p class="eyebrow">{t.nav[1]}</p><h2 id="benefits-title">{t.benefits.title}</h2>
+    <div class="benefit-grid">{t.benefits.items.map(([title, body], i) => <article>
+      <span class="tile-icon"><Icon name={icons[i]} /></span><h3>{title}</h3><p>{body}</p>
+    </article>)}</div>
+  </div>
+</section>

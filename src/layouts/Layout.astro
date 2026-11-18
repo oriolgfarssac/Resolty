@@ -1,0 +1,51 @@
+---
+import { copy, locales, pathFor, type Locale } from '../lib/i18n';
+import '@fontsource-variable/inter/wght.css';
+import '../styles/site.scss';
+const { lang, suffix = '', title, noindex = false } = Astro.props as { lang: Locale; suffix?: string; title?: string; noindex?: boolean };
+const t = copy[lang];
+const pageTitle = title ? title + ' — Resolty' : t.title;
+const url = (locale: Locale) => new URL(pathFor(locale) + suffix, Astro.site);
+const keywords = { en: 'en', es: 'es-ES', ca: 'ca' };
+const ogLocales = { en: 'en_GB', es: 'es_ES', ca: 'ca_ES' };
+---
+<!doctype html>
+<html lang={keywords[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={t.description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link rel="canonical" href={url(lang)} />
+    {locales.map((item) => <link rel="alternate" hreflang={keywords[item]} href={url(item)} />)}
+    <link rel="alternate" hreflang="x-default" href={url('en')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Resolty" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={t.description} />
+    <meta property="og:url" content={url(lang)} />
+    <meta property="og:locale" content={ogLocales[lang]} />
+    {locales.filter((item) => item !== lang).map((item) => <meta property="og:locale:alternate" content={ogLocales[item]} />)}
+  </head>
+  <body data-analytics={process.env.ANALYTICS_ENABLED === 'true' ? 'enabled' : undefined}>
+    <a class="skip" href="#main">{t.skip}</a>
+    <slot />
+    <script>
+      import { track } from '../scripts/analytics';
+      const lang = document.documentElement.lang.split('-')[0];
+      document.addEventListener('click', (event) => {
+        if (!(event.target instanceof Element)) return;
+        if (event.target.closest('[data-cta]')) track('cta_click', lang);
+        const selected = event.target.closest<HTMLElement>('[data-language]')?.dataset.language;
+        if (selected && selected !== lang && !event.defaultPrevented) track('language_select', selected);
+      });
+      document.querySelectorAll<HTMLAnchorElement>('a[data-language]').forEach((link) => {
+        link.addEventListener('click', () => { link.hash = location.hash; });
+      });
+      if (document.querySelector('[data-landing]')) track('page_view', lang);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+import { copy, type Locale } from '../lib/i18n';
+const { lang } = Astro.props as { lang: Locale };
+const d = copy[lang].demo;
+const parts = ['52%', '31%', '17%'];
+---
+<figure class="preview">
+  <div class="preview-art">
+    <div class="dashboard">
+      <div class="window-bar"><img src="/mark.svg" width="20" height="20" alt="" />{d.workspace}<Icon name="grid" /></div>
+      <div class="dash-body">
+        <div class="dash-title"><strong>{d.overview}</strong><span>{d.period}</span></div>
+        <div class="usage-card">
+          <div class="spend"><span>{d.spend}</span><strong>{d.currency}</strong><small>{d.usage}</small></div>
+          <div class="metric">
+            <strong>{d.comparison}</strong>
+            <div class="segments" aria-hidden="true">{parts.map((part) => <i style={'flex-basis:' + part}></i>)}</div>
+            <div class="legend">{d.workflows.map((item, i) => <span><i></i>{item} {parts[i]}</span>)}</div>
+          </div>
+        </div>
+        <div class="models">
+          <strong class="recommended">{d.recommended}</strong>
+          <table><thead class="visually-hidden"><tr>{d.columns.map((item) => <th scope="col">{item}</th>)}</tr></thead>
+            <tbody>{['Mistral', 'DeepSeek'].map((model, i) => <tr>
+              <th scope="row"><span class:list={['model-icon', { second: i === 1 }]} aria-hidden="true">{model[0]}</span>{model}</th>
+              <td>{d.tasks[i]}</td><td><span class="fit">{d.fits[i]}</span></td>
+            </tr>)}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <figcaption>{d.label}</figcaption>
+</figure>

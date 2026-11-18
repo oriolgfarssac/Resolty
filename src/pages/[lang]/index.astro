@@ -1,0 +1,8 @@
+---
+import Landing from '../../components/Landing.astro';
+export function getStaticPaths() {
+  return (['es', 'ca'] as const).map((lang) => ({ params: { lang }, props: { lang } }));
+}
+const { lang } = Astro.props;
+---
+<Landing {lang} />

@@ -1,0 +1,19 @@
+---
+import Brand from './Brand.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { pathFor } from '../lib/i18n';
+import { copy, type Locale } from '../lib/i18n';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+---
+<footer class="footer">
+  <div class="wrap footer-top">
+    <div><Brand {lang} /><p>{t.footer}</p></div>
+    <div class="footer-links">
+      <a href="mailto:hello@resolty.example">hello@resolty.example</a>
+      <a href={pathFor(lang) + 'privacy/'}>{t.privacy}</a>
+      <a href={pathFor(lang) + 'legal/'}>{t.legal}</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom"><small>© {new Date().getUTCFullYear()} Resolty</small><LanguageSwitcher {lang} /></div>
+</footer>

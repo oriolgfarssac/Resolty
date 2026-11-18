@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Brand from '../components/Brand.astro';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import { locales, pathFor, copy } from '../lib/i18n';
+
+export function getStaticPaths() {
+  return locales.flatMap((lang) => (['privacy', 'legal'] as const).map((kind) => ({
+    params: { document: (pathFor(lang) + kind).slice(1) },
+    props: { lang, kind },
+  })));
+}
+const { lang, kind } = Astro.props;
+const t = copy[lang];
+const title = t[kind];
+const paragraphs = kind === 'privacy' ? t.privacyText : t.legalText;
+---
+<Layout {lang} title={title} suffix={kind + '/'} noindex>
+  <header class="header"><div class="wrap header-inner"><Brand {lang} /><LanguageSwitcher {lang} suffix={kind + '/'} /></div></header>
+  <main class="wrap section legal-document" id="main">
+    <a href={pathFor(lang)}>{t.back}</a>
+    <h1>{title}</h1>
+    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    <a href="mailto:hello@resolty.example">hello@resolty.example</a>
+  </main>
+</Layout>

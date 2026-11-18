@@ -1,0 +1,12 @@
+---
+import Icon from './Icon.astro';
+import { copy, type Locale } from '../lib/i18n';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+---
+<section class="section problem" aria-labelledby="problem-title">
+  <div class="wrap split">
+    <div><p class="eyebrow">{t.problem.label}</p><h2 id="problem-title">{t.problem.title}</h2><p class="section-copy">{t.problem.body}</p></div>
+    <ul class="problem-list">{t.problem.items.map((item) => <li><Icon name="chart" />{item}</li>)}</ul>
+  </div>
+</section>

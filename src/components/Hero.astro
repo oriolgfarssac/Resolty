@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+import ProductPreview from './ProductPreview.astro';
+import { copy, type Locale } from '../lib/i18n';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+---
+<section class="wrap hero" aria-labelledby="headline">
+  <div class="hero-copy">
+    <p class="status"><i></i>{t.prelaunch}</p>
+    <h1 id="headline">{t.headline[0]} <span>{t.headline[1]}</span></h1>
+    <p class="intro">{t.intro}</p>
+    <div class="hero-actions">
+      <a class="button" data-cta href="#early-access">{t.cta}<Icon name="arrow" /></a>
+      <a class="secondary" href="#how-it-works">{t.secondary}<Icon name="down" /></a>
+    </div>
+    <ul class="reassurance">{t.reassurance.map((item) => <li><Icon name="check" />{item}</li>)}</ul>
+  </div>
+  <ProductPreview {lang} />
+</section>

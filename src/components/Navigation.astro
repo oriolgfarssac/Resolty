@@ -1,0 +1,17 @@
+---
+import Brand from './Brand.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import Icon from './Icon.astro';
+import { copy, type Locale } from '../lib/i18n';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+const ids = ['how-it-works', 'benefits', 'faq'];
+---
+<header class="header">
+  <div class="wrap header-inner">
+    <Brand {lang} />
+    <nav class="main-nav" aria-label={t.nav.join(' · ')}>{t.nav.map((label, i) => <a href={'#' + ids[i]}>{label}</a>)}</nav>
+    <LanguageSwitcher {lang} />
+    <a class="button nav-cta" data-cta href="#early-access">{t.cta}<Icon name="arrow" /></a>
+  </div>
+</header>

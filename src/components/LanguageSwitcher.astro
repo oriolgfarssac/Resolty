@@ -1,0 +1,11 @@
+---
+import Icon from './Icon.astro';
+import { copy, locales, pathFor, type Locale } from '../lib/i18n';
+const { lang, suffix = '' } = Astro.props as { lang: Locale; suffix?: string };
+const names = { en: 'English', es: 'Español', ca: 'Català' };
+---
+<nav class="languages" aria-label={copy[lang].language}>
+  <Icon name="globe" />
+  {locales.map((item) => <a href={pathFor(item) + suffix} hreflang={item} lang={item}
+    aria-label={names[item]} aria-current={item === lang ? 'page' : undefined} data-language={item}>{item.toUpperCase()}</a>)}
+</nav>

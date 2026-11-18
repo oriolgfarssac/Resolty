@@ -1,0 +1,11 @@
+---
+const paths = {
+ arrow: 'M4 12h15m-6-6 6 6-6 6', down: 'M12 4v15m-6-6 6 6 6-6', check: 'm5 12 4 4L19 6',
+ chart: 'M4 4v16h16M8 15l4-5 4 2 4-6', stack: 'm12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5',
+ bolt: 'm13 2-9 12h7l-1 8 10-12h-7l1-8Z', target: 'M12 2v4m0 12v4M2 12h4m12 0h4M19 12a7 7 0 1 1-14 0 7 7 0 0 1 14 0ZM14 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z',
+ grid: 'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z', cycle: 'M20 11a8 8 0 0 0-14-5L3 9m0-5v5h5m-4 4a8 8 0 0 0 14 5l3-3m0 5v-5h-5',
+ card: 'M3 6h18v12H3zM3 10h18m-14 4h4', globe: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0ZM2 12h20M12 2a16 16 0 0 1 0 20 16 16 0 0 1 0-20Z',
+};
+const { name } = Astro.props as { name: keyof typeof paths };
+---
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={paths[name]} /></svg>
