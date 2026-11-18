@@ -25,7 +25,7 @@ Open the localhost URL printed by Astro. The site renders without Supabase. In t
 | --- | --- |
 | `SITE_URL` | Public HTTPS origin. Required for production canonicals, alternate links, and sitemap URLs. |
 | `SUPABASE_URL` | Supabase project URL, such as `https://your-project.supabase.co`. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server-only legacy Supabase `service_role` JWT. Keep it in deployment secrets and out of browser code. |
+| `SUPABASE_SECRET_KEY` | Server-only Supabase secret key starting with `sb_secret_`. Keep it in deployment secrets and out of browser code. |
 | `WAITLIST_RATE_SECRET` | Server-only random secret of at least 32 characters. Generate it with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`. |
 | `ANALYTICS_ENABLED` | Optional. Set to `true` to save daily event counts by language. Defaults to off. Rebuild and deploy after changing this flag. |
 

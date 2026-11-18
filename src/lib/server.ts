@@ -1,12 +1,14 @@
 import type { APIContext } from 'astro';
 
+const serverKey = () => process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+
 export const configured = () => Boolean(
-  process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY && (process.env.WAITLIST_RATE_SECRET?.length ?? 0) >= 32,
+  process.env.SUPABASE_URL && serverKey() && (process.env.WAITLIST_RATE_SECRET?.length ?? 0) >= 32,
 );
 
 export async function rpc(name: string, args: object): Promise<unknown> {
   const base = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const key = serverKey();
   if (!base || !key) throw new Error('Missing storage configuration');
   const url = new URL('/rest/v1/rpc/' + name, base);
   if (url.protocol !== 'https:' && !(import.meta.env.DEV && url.hostname === '127.0.0.1')) {
@@ -14,7 +16,7 @@ export async function rpc(name: string, args: object): Promise<unknown> {
   }
   const response = await fetch(url, {
     method: 'POST',
-    headers: { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+    headers: { apikey: key, ...(key.startsWith('sb_secret_') ? {} : { Authorization: `Bearer ${key}` }), 'Content-Type': 'application/json' },
     body: JSON.stringify(args),
     redirect: 'error',
     signal: AbortSignal.timeout(5000),
