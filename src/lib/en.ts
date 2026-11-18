@@ -66,7 +66,7 @@ export default {
   privacy: 'Privacy Policy', legal: 'Legal Notice', back: 'Back to Resolty',
   privacyText: [
     'Resolty collects your name, work email, company, spending range, and any optional information you provide to manage your request and contact you about early access. Contact is based on your consent.',
-    'Requests are stored with Supabase. We use a short-lived pseudonymous rate-limit identifier to protect the form. If enabled, first-party analytics record event type and language without cookies or form contents.',
+    'Requests are stored with Supabase. When confirmation emails are enabled, Resend processes your email address to send the confirmation. We use a short-lived pseudonymous rate-limit identifier to protect the form. If enabled, first-party analytics record event type and language without cookies or form contents.',
     'You can withdraw consent or request access, correction, or deletion through the contact address below once it is configured. Controller details, contact information, and retention terms will be completed before public collection begins.',
   ],
   legalText: ['Resolty is a prelaunch project. The product preview shows illustrative data. Product availability and pricing will be shared as plans develop.', 'Operator and contact details will be completed before public launch.'],

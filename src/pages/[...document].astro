@@ -1,4 +1,5 @@
 ---
+import { contactEmail } from '../lib/contact';
 import Layout from '../layouts/Layout.astro';
 import Brand from '../components/Brand.astro';
 import LanguageSwitcher from '../components/LanguageSwitcher.astro';
@@ -21,6 +22,6 @@ const paragraphs = kind === 'privacy' ? t.privacyText : t.legalText;
     <a href={pathFor(lang)}>{t.back}</a>
     <h1>{title}</h1>
     {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-    <a href="mailto:hello@resolty.example">hello@resolty.example</a>
+    <a href={'mailto:' + contactEmail}>{contactEmail}</a>
   </main>
 </Layout>

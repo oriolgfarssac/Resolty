@@ -54,7 +54,7 @@ export default {
  privacy: 'Política de privacidad', legal: 'Aviso legal', back: 'Volver a Resolty',
  privacyText: [
  'Resolty recoge tu nombre, correo profesional, empresa, intervalo de gasto y los datos opcionales que aportes para gestionar tu solicitud y contactarte sobre el acceso anticipado. El contacto se basa en tu consentimiento.',
- 'Las solicitudes se guardan en Supabase. Usamos un identificador seudónimo de corta duración para limitar los envíos. Si se activa la analítica propia, registra el tipo de evento y el idioma sin cookies ni datos del formulario.',
+ 'Las solicitudes se guardan en Supabase. Si se activa el correo de confirmación, Resend procesa tu dirección para enviártelo. Usamos un identificador seudónimo de corta duración para limitar los envíos. Si se activa la analítica propia, registra el tipo de evento y el idioma sin cookies ni datos del formulario.',
  'Podrás retirar el consentimiento y solicitar acceso, rectificación o supresión mediante el correo indicado cuando esté configurado. Los datos del responsable, el contacto y los plazos de conservación se completarán antes de recoger datos públicamente.',
  ],
  legalText: ['Resolty es un proyecto en fase previa al lanzamiento. La vista previa contiene datos ilustrativos. La disponibilidad y los precios se comunicarán cuando se definan.', 'Los datos del titular y de contacto se completarán antes del lanzamiento público.'],

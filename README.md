@@ -35,6 +35,10 @@ The form checks consent and lengths, normalizes emails, and uses an atomic rate 
 
 Analytics use first-party requests and daily aggregate counts in `public.landing_event_counts`. Only the event and language are counted. No analytics cookies or form values are used. Requests with Do Not Track or Global Privacy Control signals are excluded. Counts are directional and can be affected by automated traffic. A successful submission is counted by the same database transaction that writes the waitlist entry.
 
+## Enable confirmation emails
+
+Verify the sending domain `resolty.com` in [Resend](https://resend.com/docs/dashboard/domains/introduction), then set `RESEND_API_KEY` in the local `.env` or in Vercel's Production environment and redeploy. Resolty sends from `hello@resolty.com` in the language of each new signup. The API key is server-only. Signups continue to save if the key is absent or the provider returns an error. Delivery failures are logged without recipient data. Verify delivery with an address you control.
+
 ## Deploy on Vercel
 
 1. Import the repository using the Astro framework preset and Node.js 24. Use `npm run build`. Let the adapter configure the static output and server functions.
@@ -45,7 +49,7 @@ See the [official Astro Vercel adapter guide](https://docs.astro.build/en/guides
 
 ## Before public collection
 
-Confirm the working brand, replace `hello@resolty.example` in the footer and legal page template, and finalize the legal and privacy copy in English, Spanish, and Catalan. Supply the actual operator and controller details, contact address, data retention and deletion process, hosting and Supabase processing details, and any other disclosures required for your operation. The included legal pages are drafts. Update the form’s consent version in the SQL when the consent text materially changes. Review the optional analytics configuration for your deployment before enabling it.
+Finalize the legal and privacy copy in English, Spanish, and Catalan. Supply the actual operator and controller details, contact address, data retention and deletion process, hosting and Supabase processing details, and any other disclosures required for your operation. The included legal pages are drafts. Update the form’s consent version in the SQL when the consent text materially changes. Review the optional analytics configuration for your deployment before enabling it.
 
 ## Source map
 

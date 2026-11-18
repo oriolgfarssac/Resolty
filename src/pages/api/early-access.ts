@@ -1,5 +1,6 @@
 import type { APIContext, APIRoute } from 'astro';
 import { createHmac } from 'node:crypto';
+import { sendConfirmationEmail } from '../../lib/confirmation-email';
 import { copy, isLocale, pathFor, acceptedSpending, tools, type Locale } from '../../lib/i18n';
 import { analyticsEnabled, configured, isSameOrigin, readBody, rpc, trackingAllowed } from '../../lib/server';
 
@@ -59,7 +60,11 @@ export const POST: APIRoute = async (context) => {
       p_tools: choices, p_use: use || null, p_locale: lang,
       p_track: analyticsEnabled() && trackingAllowed(request),
     });
-    if (outcome === 'success' || outcome === 'duplicate' || outcome === 'limited') {
+    if (outcome === 'success') {
+      await sendConfirmationEmail(email, lang);
+      return reply(context, lang, outcome);
+    }
+    if (outcome === 'duplicate' || outcome === 'limited') {
       return reply(context, lang, outcome);
     }
   } catch {

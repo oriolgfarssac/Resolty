@@ -1,4 +1,5 @@
 ---
+import { contactEmail } from '../lib/contact';
 import Brand from './Brand.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { pathFor } from '../lib/i18n';
@@ -10,7 +11,7 @@ const t = copy[lang];
   <div class="wrap footer-top">
     <div><Brand {lang} /><p>{t.footer}</p></div>
     <div class="footer-links">
-      <a href="mailto:hello@resolty.example">hello@resolty.example</a>
+      <a href={'mailto:' + contactEmail}>{contactEmail}</a>
       <a href={pathFor(lang) + 'privacy/'}>{t.privacy}</a>
       <a href={pathFor(lang) + 'legal/'}>{t.legal}</a>
     </div>
