@@ -6,6 +6,14 @@ const { lang, suffix = '', title, noindex = false } = Astro.props as { lang: Loc
 const t = copy[lang];
 const pageTitle = title ? title + ' — Resolty' : t.title;
 const url = (locale: Locale) => new URL(pathFor(locale) + suffix, Astro.site);
+const logoUrl = new URL('/logo.png', Astro.site).href;
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Resolty',
+  url: url('en').href,
+  logo: logoUrl,
+};
 const keywords = { en: 'en', es: 'es-ES', ca: 'ca' };
 const ogLocales = { en: 'en_GB', es: 'es_ES', ca: 'ca_ES' };
 ---
@@ -18,7 +26,8 @@ const ogLocales = { en: 'en_GB', es: 'es_ES', ca: 'ca_ES' };
     <title>{pageTitle}</title>
     <meta name="description" content={t.description} />
     {noindex && <meta name="robots" content="noindex" />}
-    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="96x96" />
+    <link rel="icon" href="/mark.svg" type="image/svg+xml" sizes="any" />
     <link rel="canonical" href={url(lang)} />
     {locales.map((item) => <link rel="alternate" hreflang={keywords[item]} href={url(item)} />)}
     <link rel="alternate" hreflang="x-default" href={url('en')} />
@@ -27,6 +36,12 @@ const ogLocales = { en: 'en_GB', es: 'es_ES', ca: 'ca_ES' };
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={t.description} />
     <meta property="og:url" content={url(lang)} />
+    <meta property="og:image" content={logoUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="192" />
+    <meta property="og:image:height" content="192" />
+    <meta property="og:image:alt" content="Resolty" />
+    {lang === 'en' && !suffix && <script type="application/ld+json" set:html={JSON.stringify(organization).replaceAll('<', '\u003c')} />}
     <meta property="og:locale" content={ogLocales[lang]} />
     {locales.filter((item) => item !== lang).map((item) => <meta property="og:locale:alternate" content={ogLocales[item]} />)}
   </head>
