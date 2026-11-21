@@ -6,9 +6,17 @@ const d = copy[lang].demo;
 const parts = ['52%', '31%', '17%'];
 ---
 <figure class="preview">
-  <div class="preview-art">
-    <div class="dashboard">
-      <div class="window-bar"><img src="/mark.svg" width="20" height="20" alt="" />{d.workspace}<Icon name="grid" /></div>
+  <div class="dashboard">
+    <div class="preview-sidebar" aria-hidden="true">
+      <div class="preview-brand"><img src="/mark.svg" width="24" height="24" alt="" />Resolty</div>
+      <ul>
+        <li><Icon name="grid" />{d.overview}</li>
+        <li><Icon name="chart" />{d.comparison}</li>
+        <li><Icon name="stack" />{d.recommended}</li>
+      </ul>
+    </div>
+    <div class="preview-main">
+      <div class="window-bar"><Icon name="grid" />{d.workspace}</div>
       <div class="dash-body">
         <div class="dash-title"><strong>{d.overview}</strong><span>{d.period}</span></div>
         <div class="usage-card">

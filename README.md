@@ -55,6 +55,7 @@ Finalize the legal and privacy copy in English, Spanish, and Catalan. Supply the
 
 - `src/components/` holds the landing sections and accessible native form.
 - `src/lib/{en,es,ca}.ts` contains localized copy.
-- `src/styles/` holds shared, dashboard, and section SCSS.
+- `src/styles/site.scss` defines the dark palette shared with the Resolty app. The landing uses its charcoal backgrounds, lavender actions, and rounded controls across all three languages.
+- `src/styles/_preview.scss` styles the illustrative dashboard, including its workspace sidebar, which collapses on narrow screens. `_sections.scss` styles the marketing sections, waitlist, and legal pages.
 - `src/pages/api/` contains the Astro endpoints.
 - `supabase/schema.sql` contains the waitlist and analytics database setup.
